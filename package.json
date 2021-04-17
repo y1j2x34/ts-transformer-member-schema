@@ -1,0 +1,74 @@
+{
+    "name": "ts-transformer-member-schema",
+    "version": "1.0.0",
+    "description": "A TypeScript custom transformer to obtain json from TypeScript type(interface, enum and class)",
+    "main": "index.js",
+    "scripts": {
+        "commit": "commit",
+        "lint": "eslint {src,test}/**/*.{ts,tsx}",
+        "format": "eslint --fix {src,test}/**/*.{ts,tsx}",
+        "build": "ttsc",
+        "prepublish": "ttsc",
+        "pretest": "ttsc",
+        "test": "ttsc --project ./test/tsconfig.json && jest",
+        "codecov": "codecov < coverage/cobertura-coverage.xml"
+    },
+    "lint-staged": {
+        "{src,test}/**/*.{ts,tsx}": [
+            "npm run format",
+            "git add"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/y1j2x34/ts-transformer-member-schema.git"
+    },
+    "keywords": [
+        "TypeScript",
+        "transformer",
+        "interface",
+        "abstract",
+        "class",
+        "member",
+        "schema"
+    ],
+    "author": "JianXin Yang",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/y1j2x34/ts-transformer-member-schema/issues"
+    },
+    "homepage": "https://github.com/y1j2x34/ts-transformer-member-schema#readme",
+    "devDependencies": {
+        "@commitlint/cli": "^12.1.1",
+        "@commitlint/config-conventional": "^12.1.1",
+        "@commitlint/prompt-cli": "^12.1.1",
+        "@types/jest": "^26.0.22",
+        "@types/node": "^14.14.41",
+        "@typescript-eslint/eslint-plugin": "^4.22.0",
+        "codecov": "^3.8.1",
+        "eslint": "^7.24.0",
+        "eslint-config-prettier": "^8.2.0",
+        "eslint-plugin-prettier": "^3.4.0",
+        "husky": "^6.0.0",
+        "jest": "^26.6.3",
+        "jest-cli": "^26.6.3",
+        "lint-staged": "^10.5.4",
+        "prettier": "^2.2.1",
+        "tsconfig-paths": "^3.9.0",
+        "ttypescript": "^1.5.12",
+        "typescript": "^4.2.4"
+    },
+    "dependencies": {
+        "@typescript-eslint/parser": "^4.22.0",
+        "tslib": "^2.2.0"
+    },
+    "peerDependencies": {
+        "typescript": ">=2.4.1"
+    },
+    "husky": {
+        "hooks": {
+            "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+            "pre-commit": "lint-staged"
+        }
+    }
+}
