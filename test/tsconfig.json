@@ -5,7 +5,10 @@
             {
                 "transform": "../dist/transformer/index.js"
             }
-        ]
+        ],
+        "declaration": false,
+        "sourceMap": true,
+        "outDir": "../test_dist"
     },
     "include": [
         "./specs"

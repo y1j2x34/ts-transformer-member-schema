@@ -9,8 +9,9 @@
         "format": "eslint --fix {src,test}/**/*.{ts,tsx}",
         "build": "ttsc",
         "prepublish": "ttsc",
-        "pretest": "ttsc",
-        "test": "ttsc --project ./test/tsconfig.json && jest",
+        "pretest": "ttsc && ttsc --project ./test/tsconfig.json",
+        "debug": "ttsc && node --inspect ./node_modules/ttypescript/bin/tsc --project ./test/tsconfig.json --watch",
+        "test": "jest",
         "codecov": "codecov < coverage/cobertura-coverage.xml"
     },
     "lint-staged": {
@@ -54,6 +55,7 @@
         "jest-cli": "^26.6.3",
         "lint-staged": "^10.5.4",
         "prettier": "^2.2.1",
+        "ts-node": "^9.1.1",
         "tsconfig-paths": "^3.9.0",
         "ttypescript": "^1.5.12",
         "typescript": "^4.2.4"
