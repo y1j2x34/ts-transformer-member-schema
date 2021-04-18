@@ -23,9 +23,5 @@
         "max-len": ["error", 120],
         "@typescript-eslint/no-inferrable-types": "off",
         "@typescript-eslint/ban-types": "off"
-    },
-    "ignorePatterns": [
-        "commitlint.config.js",
-        "test/jest.config.js"
-    ]
+    }
 }
