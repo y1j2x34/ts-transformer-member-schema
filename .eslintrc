@@ -6,7 +6,7 @@
         "ecmaFeatures": {
             "impliedStrict": true
         },
-        "project": "./tsconfig.json"
+        "project": ["./tsconfig.json", "./test/tsconfig.json"]
     },
     "extends": [
         "plugin:@typescript-eslint/recommended", //  Use the recommended rules from the @typescript-eslint/eslint-plugin
@@ -25,6 +25,7 @@
         "@typescript-eslint/ban-types": "off"
     },
     "ignorePatterns": [
-        "commitlint.config.js"
+        "commitlint.config.js",
+        "test/jest.config.js"
     ]
 }
