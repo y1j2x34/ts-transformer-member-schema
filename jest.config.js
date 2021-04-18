@@ -1,8 +1,9 @@
 module.exports = {
-    clearMosks: true,
+    clearMocks: true,
     coverageDirectory: "coverage",
     testEnvironment: "node",
     testPathIgnorePatterns: [
-        /src\/.+\.ts$/
-    ]
+        "src\/.+\.ts$"
+    ],
+    rootDir: './test_dist'
 };
