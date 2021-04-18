@@ -33,7 +33,7 @@ function visitNode(node: ts.Node, program: ts.Program): ts.Node {
         return badMemberSchema;
     }
     const typeNode = node.typeArguments[0];
-    const builder = new MemberSchemaBuilder(node, typeNode, typeChecker);
+    const builder = new MemberSchemaBuilder(typeNode, typeChecker);
     return ts.factory.createRegularExpressionLiteral(JSON.stringify(builder.build()));
 }
 

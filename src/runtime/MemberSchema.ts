@@ -1,16 +1,11 @@
-import ts from 'typescript';
-
 export enum Modifier {
     none = '',
     publicMemberModifier = 'public',
     privateMemberModifier = 'private',
     protectedMemberModifier = 'protected',
     exportedModifier = 'export',
-    ambientModifier = 'declare',
     staticModifier = 'static',
     abstractModifier = 'abstract',
-    optionalModifier = 'optional',
-    deprecatedModifier = 'deprecated',
 }
 
 export type Type =
@@ -67,7 +62,7 @@ export interface UnionTypeSchema extends TypeSchema {
 
 export interface PropertySchema {
     name: string;
-    optionsal: boolean;
+    optional: boolean;
     type: Type;
     modifiers: Modifier[];
 }
@@ -76,7 +71,7 @@ export interface MethodSchema {
     name: string;
     arguments: ArgumentSchema[];
     returnType: Type;
-    signature: ts.SignatureKind;
+    modifiers: Modifier[];
 }
 
 export interface ArgumentSchema {
