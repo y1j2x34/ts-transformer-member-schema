@@ -3,7 +3,7 @@
     "compilerOptions": {
         "plugins": [
             {
-                "transform": "../dist/transformer/index.js"
+                "transform": "../src/transformer/index.ts"
             }
         ],
         "declaration": false,
