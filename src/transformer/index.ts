@@ -1,7 +1,9 @@
 import { MemberSchema } from '../runtime';
-import { MemberSchemaBuilder } from './MemberSchemaBuilder';
+import { MemberSchemaDescriber } from './MemberSchemaBuilder';
 import path from 'path';
 import ts from 'typescript';
+
+const MODULE_ROOT_DIR = path.resolve(__dirname, '../');
 
 export default function transformer(program: ts.Program): ts.TransformerFactory<ts.Node> {
     return (context: ts.TransformationContext) => {
@@ -33,8 +35,8 @@ function visitNode(node: ts.Node, program: ts.Program): ts.Node {
         return badMemberSchema;
     }
     const typeNode = node.typeArguments[0];
-    const builder = new MemberSchemaBuilder(typeNode, typeChecker);
-    return ts.factory.createRegularExpressionLiteral(JSON.stringify(builder.build()));
+    const builder = new MemberSchemaDescriber(typeNode, typeChecker);
+    return ts.factory.createRegularExpressionLiteral(JSON.stringify(builder.describe()));
 }
 
 function isRuntimeTypeCallExpression(node: ts.Node, typeChecker: ts.TypeChecker): node is ts.CallExpression {
@@ -50,12 +52,8 @@ function isRuntimeTypeCallExpression(node: ts.Node, typeChecker: ts.TypeChecker)
         return false;
     }
     const fileName = declaration.getSourceFile().fileName;
-    if (fileName.indexOf(__dirname) === 0) {
-        const subpath = fileName.substr(__dirname.length);
-        if (subpath.length > 0 && subpath.indexOf(path.sep) === -1) {
-            return false;
-        }
-    } else {
+
+    if (fileName.indexOf(MODULE_ROOT_DIR) === -1) {
         return false;
     }
     if (!declaration.name) {

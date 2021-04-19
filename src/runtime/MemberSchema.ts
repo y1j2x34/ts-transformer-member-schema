@@ -10,6 +10,7 @@ export enum Modifier {
 
 export type Type =
     | null
+    | TypeSchema
     | ArrayTypeSchema
     | ReferenceTypeSchema
     | ParameterizedTypeSchema
@@ -24,13 +25,34 @@ export enum TypeName {
     generic = 'generic',
     union = 'union',
     literal = 'literal',
+    tuple = 'tuple',
 }
+export enum LiterialType {
+    numeric = 'numeric',
+    string = 'string',
+    boolean = 'boolean',
+    null = 'null',
+    undefined = 'undefined',
+}
+
+export interface LiterialSchema<V, T extends LiterialType> {
+    value: V;
+    type: T;
+}
+
+export type NumbericLiterial = LiterialSchema<number, LiterialType.numeric>;
+export type StringLiterial = LiterialSchema<string, LiterialType.string>;
+export type BooleanLiterial = LiterialSchema<boolean, LiterialType.boolean>;
+export type NullLiterial = LiterialSchema<null, LiterialType.null>;
+export type UndefinedLiterial = LiterialSchema<undefined, LiterialType.undefined>;
+
 export interface TypeSchema {
     type: TypeName;
 }
 export interface ReferenceTypeSchema extends TypeSchema {
     type: TypeName.reference;
     name: string;
+    arguments: Type[];
 }
 
 export interface ArrayTypeSchema extends TypeSchema {
@@ -52,7 +74,7 @@ export interface GenericTypeSchema extends TypeSchema {
 
 export interface LiteralTypeSchema extends TypeSchema {
     type: TypeName.literal;
-    properties: PropertySchema[];
+    literial: NumbericLiterial | StringLiterial | BooleanLiterial | NullLiterial | UndefinedLiterial;
 }
 
 export interface UnionTypeSchema extends TypeSchema {
