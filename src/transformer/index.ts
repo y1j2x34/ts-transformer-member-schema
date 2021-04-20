@@ -1,5 +1,5 @@
 import { MemberSchema } from '../runtime';
-import { MemberSchemaDescriber } from './MemberSchemaBuilder';
+import { MemberSchemaDescriber } from './MemberSchemaDescriber';
 import path from 'path';
 import ts from 'typescript';
 
