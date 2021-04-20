@@ -26,6 +26,13 @@ export enum TypeName {
     union = 'union',
     literal = 'literal',
     tuple = 'tuple',
+    void = 'void',
+    primary = 'primary',
+}
+export enum PrimaryTypeName {
+    boolean = 'boolean',
+    string = 'string',
+    number = 'number',
 }
 export enum LiterialType {
     numeric = 'numeric',
@@ -48,6 +55,13 @@ export type UndefinedLiterial = LiterialSchema<undefined, LiterialType.undefined
 
 export interface TypeSchema {
     type: TypeName;
+}
+export interface VoidTypeSchema extends TypeSchema {
+    type: TypeName.void;
+}
+export interface PrimaryTypeSchema extends TypeSchema {
+    type: TypeName.primary;
+    name: PrimaryTypeName;
 }
 export interface ReferenceTypeSchema extends TypeSchema {
     type: TypeName.reference;

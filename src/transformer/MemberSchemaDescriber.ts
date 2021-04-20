@@ -6,11 +6,14 @@ import {
     MemberSchema,
     MethodSchema,
     Modifier,
+    PrimaryTypeName,
+    PrimaryTypeSchema,
     PropertySchema,
     ReferenceTypeSchema,
     TypeName,
     TypeSchema,
     UnionTypeSchema,
+    VoidTypeSchema,
 } from '../runtime';
 import ts from 'typescript';
 
@@ -45,10 +48,17 @@ export class MemberSchemaDescriber {
         return methods.map((it) => {
             const declaration = it.valueDeclaration as ts.SignatureDeclarationBase;
             console.info('method declaration', declaration);
+            // declaration.typeParameters?.map((it: ts.TypeParameterDeclaration) => {
+            //     this.typeChecker.getA
+            //     return {
+            //         constraint: it.constraint ? this.describeTypeNode(it.constraint) : null,
+
+            //     };
+            // });
             return {
                 modifiers: this.convertModifiers(declaration.modifiers),
                 name: it.getName(),
-                arguments: this.convertArguments(declaration.parameters),
+                arguments: this.describeArguments(declaration.parameters),
                 returnType: declaration.type ? this.describeTypeNode(declaration.type) : null,
             };
         });
@@ -64,8 +74,35 @@ export class MemberSchemaDescriber {
                 return this.describeUnionType(type as ts.UnionTypeNode);
             case SyntaxKind.LiteralType:
                 return this.describeLiteralType(type as ts.LiteralTypeNode);
+            case SyntaxKind.VoidKeyword:
+                return this.describeVoidType();
+            case SyntaxKind.StringLiteral:
+            case SyntaxKind.NullKeyword:
+            case SyntaxKind.UndefinedKeyword:
+            case SyntaxKind.NumericLiteral:
+            case SyntaxKind.TrueKeyword:
+            case SyntaxKind.FalseKeyword:
+            case SyntaxKind.TemplateLiteralType:
+                return this.describeLiteralType(type as ts.LiteralTypeNode);
+            case SyntaxKind.NumberKeyword:
+                return this.describePrimaryType(PrimaryTypeName.number);
+            case SyntaxKind.StringKeyword:
+                return this.describePrimaryType(PrimaryTypeName.string);
+            case SyntaxKind.BooleanKeyword:
+                return this.describePrimaryType(PrimaryTypeName.boolean);
         }
         return null as never;
+    }
+    private describePrimaryType(name: PrimaryTypeName): PrimaryTypeSchema {
+        return {
+            type: TypeName.primary,
+            name,
+        };
+    }
+    private describeVoidType(): VoidTypeSchema {
+        return {
+            type: TypeName.void,
+        };
     }
     private describeLiteralType(type: ts.LiteralTypeNode): LiteralTypeSchema {
         return {
@@ -147,13 +184,13 @@ export class MemberSchemaDescriber {
     private checkOptional(symbol: ts.Symbol): boolean {
         return !symbol.declarations.some((it) => (it as ts.PropertySignature).questionToken === undefined);
     }
-    private convertArguments(parameters: ts.NodeArray<ts.ParameterDeclaration>): ArgumentSchema[] {
+    private describeArguments(parameters: ts.NodeArray<ts.ParameterDeclaration>): ArgumentSchema[] {
         return parameters.map((it, index) => {
             return {
                 index,
                 name: it.name.getText(),
                 optional: !!it.questionToken,
-                type: null,
+                type: it.type ? this.describeTypeNode(it.type) : null,
             };
         });
     }

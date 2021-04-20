@@ -36,7 +36,7 @@ function visitNode(node: ts.Node, program: ts.Program): ts.Node {
     }
     const typeNode = node.typeArguments[0];
     const builder = new MemberSchemaDescriber(typeNode, typeChecker);
-    return ts.factory.createRegularExpressionLiteral(JSON.stringify(builder.describe()));
+    return ts.factory.createRegularExpressionLiteral(JSON.stringify(builder.describe(), null, 4));
 }
 
 function isRuntimeTypeCallExpression(node: ts.Node, typeChecker: ts.TypeChecker): node is ts.CallExpression {
